@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Static Waveshaper – Index-Spaced Samples</title>
+
+<!-- Correct D3 CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+<style>
+    body {
+        background: #0e0e11;
+        color: #ddd;
+        font-family: system-ui, sans-serif;
+    }
+    svg {
+        background: #141418;
+        border: 1px solid #333;
+    }
+    .axis path,
+    .axis line {
+        stroke: #555;
+    }
+    .axis text {
+        fill: #aaa;
+        font-size: 11px;
+    }
+    label {
+        display: inline-block;
+        margin-right: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h3>Static Waveshaper (Index-Spaced Diagnostic View)</h3>
+
+<label>
+    Drive:
+    <input id="drive" type="range" min="0" max="10" step="0.1" value="1">
+    <span id="driveVal">1.0</span>
+</label>
+
+<label>
+    Samples:
+    <input id="samples" type="range" min="4" max="256" step="1" value="64">
+    <span id="samplesVal">64</span>
+</label>
+
+<br><br>
+
+<svg id="chart" width="720" height="420"></svg>
+
+<script>
+const svg = d3.select("#chart");
+const margin = { top: 20, right: 20, bottom: 50, left: 60 };
+const width = +svg.attr("width") - margin.left - margin.right;
+const height = +svg.attr("height") - margin.top - margin.bottom;
+
+const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+let sampleCount = 64;
+
+// -------- Static waveshaper (JSFX-equivalent) --------
+function staticWaveshape(x, drive) {
+    // Drive = 0 → linear passthrough
+    if (drive === 0) return x;
+
+    let driven = x * drive;
+    driven = Math.max(-1, Math.min(1, driven));
+
+    const ex = Math.exp(2 * driven * 3);
+    return (ex - 1) / (ex + 1);
+}
+
+// -------- Sample generator (TRUE linear spacing) --------
+function generateSamples(drive) {
+    const data = [];
+    for (let i = 0; i < sampleCount; i++) {
+        const input = (i / (sampleCount - 1)) * 2 - 1;
+        const output = staticWaveshape(input, drive);
+        data.push({ i, x: input, y: output });
+    }
+    return data;
+}
+
+// -------- Scales --------
+const xScale = d3.scaleLinear().range([0, width]);
+const yScale = d3.scaleLinear()
+    .domain([-1, 1])
+    .range([height, 0]);
+
+// -------- Axes --------
+const xAxisG = g.append("g")
+    .attr("class", "axis")
+    .attr("transform", `translate(0,${height})`);
+
+const yAxisG = g.append("g")
+    .attr("class", "axis");
+
+const yAxis = d3.axisLeft(yScale).ticks(5);
+
+// -------- Line --------
+const line = d3.line()
+    .x(d => xScale(d.i))
+    .y(d => yScale(d.y));
+
+const path = g.append("path")
+    .attr("fill", "none")
+    .attr("stroke", "#4fc3f7")
+    .attr("stroke-width", 2);
+
+// -------- Dots --------
+const dotsG = g.append("g");
+
+// -------- Render --------
+function render(drive) {
+    const data = generateSamples(drive);
+
+    // Update X scale (INDEX-based spacing)
+    xScale.domain([0, sampleCount - 1]);
+
+    const xAxis = d3.axisBottom(xScale)
+        .ticks(5)
+        .tickFormat(i =>
+            (((i / (sampleCount - 1)) * 2 - 1)).toFixed(2)
+        );
+
+    xAxisG.call(xAxis);
+    yAxisG.call(yAxis);
+
+    // Line
+    path.datum(data).attr("d", line);
+
+    // Dots
+    const dots = dotsG.selectAll("circle").data(data);
+
+    dots.enter()
+        .append("circle")
+        .merge(dots)
+        .attr("cx", d => xScale(d.i))
+        .attr("cy", d => yScale(d.y))
+        .attr("r", 3)
+        .attr("fill", "#ffcc66");
+
+    dots.exit().remove();
+}
+
+// -------- UI --------
+const driveSlider = document.getElementById("drive");
+const driveVal = document.getElementById("driveVal");
+const samplesSlider = document.getElementById("samples");
+const samplesVal = document.getElementById("samplesVal");
+
+driveSlider.addEventListener("input", () => {
+    const v = parseFloat(driveSlider.value);
+    driveVal.textContent = v.toFixed(1);
+    render(v);
+});
+
+samplesSlider.addEventListener("input", () => {
+    sampleCount = parseInt(samplesSlider.value, 10);
+    samplesVal.textContent = sampleCount;
+    render(parseFloat(driveSlider.value));
+});
+
+// Initial render
+render(parseFloat(driveSlider.value));
+</script>
+
+</body>
+</html>
