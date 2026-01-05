@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LUT Distortion – Discrete Samples</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+<style>
+body {
+    background:#1a1a1a;
+    color:#e0e0e0;
+    font-family:system-ui,-apple-system,sans-serif;
+    margin:0;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+}
+.container {
+    background:#2a2a2a;
+    padding:24px;
+    border-radius:12px;
+    max-width:820px;
+    width:100%;
+}
+h1 {
+    color:#4fc3f7;
+    margin:0 0 8px 0;
+}
+.subtitle {
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:20px;
+}
+label {
+    display:block;
+    margin:14px 0 6px;
+    color:#bbb;
+}
+input[type="range"] {
+    width:100%;
+}
+.value {
+    float:right;
+    color:#4fc3f7;
+    font-weight:bold;
+}
+svg {
+    background:#111;
+    border-radius:8px;
+}
+.axis text {
+    fill:#aaa;
+}
+.axis line,
+.axis path {
+    stroke:#555;
+}
+.grid line {
+    stroke:#333;
+}
+.ref {
+    stroke:#666;
+    stroke-dasharray:4,4;
+}
+.dot {
+    fill:#4fc3f7;
+}
+.line {
+    fill:none;
+    stroke:#4fc3f7;
+    stroke-width:2;
+    opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>LUT Distortion (Discrete)</h1>
+<div class="subtitle">JSFX-accurate LUT + interpolation, connected sampled points</div>
+
+<label>Drive <span class="value" id="driveVal">1.0</span></label>
+<input id="drive" type="range" min="0" max="10" step="0.1" value="1">
+
+<label>Samples <span class="value" id="sampleVal">16</span></label>
+<input id="samples" type="range" min="4" max="24" step="1" value="16">
+
+<svg id="chart"></svg>
+</div>
+
+<script>
+/* =======================
+   CHART SETUP
+======================= */
+const margin = {top:20,right:20,bottom:40,left:50};
+const width = 740 - margin.left - margin.right;
+const height = 480 - margin.top - margin.bottom;
+
+const svg = d3.select("#chart")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",`translate(${margin.left},${margin.top})`);
+
+const xScale = d3.scaleLinear().domain([-1,1]).range([0,width]);
+const yScale = d3.scaleLinear().domain([-1,1]).range([height,0]);
+
+svg.append("g")
+    .attr("class","grid")
+    .attr("transform",`translate(0,${height})`)
+    .call(d3.axisBottom(xScale).ticks(10).tickSize(-height).tickFormat(""));
+
+svg.append("g")
+    .attr("class","grid")
+    .call(d3.axisLeft(yScale).ticks(10).tickSize(-width).tickFormat(""));
+
+svg.append("g")
+    .attr("class","axis")
+    .attr("transform",`translate(0,${height})`)
+    .call(d3.axisBottom(xScale));
+
+svg.append("g")
+    .attr("class","axis")
+    .call(d3.axisLeft(yScale));
+
+svg.append("line")
+    .attr("class","ref")
+    .attr("x1",xScale(-1))
+    .attr("y1",yScale(-1))
+    .attr("x2",xScale(1))
+    .attr("y2",yScale(1));
+
+/* =======================
+   LUT (JSFX MATCH)
+======================= */
+const tblsz = 1024;
+const tbl = new Float32Array(tblsz);
+
+for (let i=0;i<tblsz;i++) {
+    const x = (i/(tblsz-1))*2 - 1;
+    const ex = Math.exp(6*x);
+    tbl[i] = (ex - 1) / (ex + 1);
+}
+
+/* =======================
+   APPLY DISTORTION
+======================= */
+function applyDistortion(input, drive) {
+    // TRUE bypass at zero drive
+    if (drive === 0) return input;
+
+    let x = input * drive;
+    x = Math.max(-1, Math.min(1, x));
+
+    const idx = (x + 1) * 0.5 * (tblsz - 1);
+    const i = Math.floor(idx);
+    const f = idx - i;
+
+    if (i >= tblsz - 1) return tbl[tblsz - 1];
+    return tbl[i] + f * (tbl[i + 1] - tbl[i]);
+}
+
+/* =======================
+   DISCRETE SAMPLE MODEL
+======================= */
+function generateSamples(drive, count) {
+    const data = [];
+    for (let i=0;i<count;i++) {
+        // center-heavy amplitude distribution
+        const t = (i/(count-1))*2 - 1;
+        const input = Math.tanh(1.5 * t);
+
+        const output = applyDistortion(input, drive);
+        data.push({x:input, y:output});
+    }
+    return data;
+}
+
+/* =======================
+   LINE GENERATOR
+======================= */
+const line = d3.line()
+    .x(d => xScale(d.x))
+    .y(d => yScale(d.y));
+
+const connectionPath = svg.append("path")
+    .attr("class","line");
+
+/* =======================
+   RENDER
+======================= */
+function render() {
+    const drive = +driveSlider.value;
+    const samples = +sampleSlider.value;
+
+    driveVal.textContent = drive.toFixed(1);
+    sampleVal.textContent = samples;
+
+    const data = generateSamples(drive, samples);
+
+    // update line
+    connectionPath
+        .datum(data)
+        .attr("d", line);
+
+    // update dots
+    const dots = svg.selectAll(".dot").data(data);
+
+    dots.enter()
+        .append("circle")
+        .attr("class","dot")
+        .attr("r",4)
+        .merge(dots)
+        .attr("cx",d=>xScale(d.x))
+        .attr("cy",d=>yScale(d.y));
+
+    dots.exit().remove();
+}
+
+/* =======================
+   CONTROLS
+======================= */
+const driveSlider = document.getElementById("drive");
+const sampleSlider = document.getElementById("samples");
+const driveVal = document.getElementById("driveVal");
+const sampleVal = document.getElementById("sampleVal");
+
+driveSlider.oninput = render;
+sampleSlider.oninput = render;
+
+render();
+</script>
+</body>
+</html>
