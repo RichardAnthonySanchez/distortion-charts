@@ -153,7 +153,7 @@ We can. This is where interpolation comes in.
 
 Interpolation is the process of estimating unknown values that fall between known data points, essentially filling in the gaps by assuming a pattern or trend. 
 
-If you've ever used keyframes within a video editor, you're already familiar with this concept. Instead of animating every frame, motion is _assumed_ based on surrounding keyframes. 
+If you've ever used keyframes within a video editor, you're already familiar with this concept. Instead of animating every frame, motion is assumed based on surrounding keyframes. 
 
 The points on our table have effectively become keyframes - when a sample's amplitude doesn't match a desired point, it is averaged between it's two neighboring values.
 
@@ -264,9 +264,9 @@ Implementing LUTs in DSP isn't a one-size-fits all — their performance varies 
 Your distortion could be better or be worse using them. The only way to know for sure is to test.
 ## Conclusion
 
-A LUT replaces one expensive nonlinear function, but it often adds several other operations per sample. Therefore, a LUT does not eliminate per-sample processing, it just changes _what kind_.
+A LUT replaces one expensive nonlinear function, but it often adds several other operations per sample. Therefore, a LUT does not eliminate per-sample processing, it just changes what kind.
 
-If you want to test for yourself, the source code can be found here: https://github.com/RichardAnthonySanchez/static-vs-lut
+If you want to test for yourself, the source code can be found here: [https://github.com/RichardAnthonySanchez/static-vs-lut](https://github.com/RichardAnthonySanchez/static-vs-lut)
 
 Want to contribute?  Add different languages like C++ and Faust. Just open a PR!
 
