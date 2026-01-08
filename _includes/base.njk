@@ -29,10 +29,10 @@
                     <div class="author-avatar"></div>
                     <div class="meta-info">
                         <strong>{{ author | default("Richard Anthony Sanchez") }}</strong>
-                        <span>•</span>
+                        <span class="separator">|</span>
                         {{ readTime | default("8 min read") }}
-                        <span>•</span>
-                        {{ date | default("January 8, 2026") }}
+                        <span class="dot">•</span>
+                        {{ date | readableDate if date else "January 8, 2026" }}
                     </div>
                 </div>
             </div>

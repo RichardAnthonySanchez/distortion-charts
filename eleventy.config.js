@@ -4,6 +4,17 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("public/scripts");
     eleventyConfig.addPassthroughCopy("public/markdown/*.png"); // If images are there
 
+    eleventyConfig.addFilter("readableDate", (dateObj) => {
+        if (!dateObj) return "";
+        const date = new Date(dateObj);
+        return date.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            timeZone: "UTC" // Force UTC to avoid timezone shift issues from frontmatter dates
+        });
+    });
+
     return {
         dir: {
             input: ".",

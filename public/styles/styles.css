@@ -24,6 +24,12 @@
     padding: 0;
 }
 
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     background-color: var(--bg-body);
     font-family: var(--font-main);
@@ -158,8 +164,13 @@ h4,
     color: var(--text-header-secondary);
 }
 
-.meta-info span {
-    margin: 0 8px;
+.meta-info .separator {
+    margin: 0 12px;
+    opacity: 0.3;
+}
+
+.meta-info .dot {
+    margin: 0 6px;
     opacity: 0.5;
 }
 
@@ -438,15 +449,94 @@ svg#chart {
 @media (max-width: 1024px) {
     .article-header .container {
         flex-direction: column;
-        padding-top: 40px;
+        padding: 60px 20px;
         gap: 40px;
+        align-items: flex-start;
     }
 
-    h1 {
-        font-size: 2.8rem;
+    h1,
+    .body-header h1 {
+        font-size: 3rem;
     }
 
     .hero-image-container {
         width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-header {
+        padding: 40px 0;
+    }
+
+    .article-body {
+        padding: 60px 0;
+    }
+
+    h1,
+    .body-header h1 {
+        font-size: 2.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .body-header .subtitle {
+        font-size: 1.25rem;
+    }
+
+    .section-title,
+    .article-body h2 {
+        font-size: 2rem;
+        margin: 60px 0 24px;
+    }
+
+    .chart-container {
+        padding: 30px 20px;
+        margin: 40px 0;
+        border-radius: 16px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .chart-controls {
+        width: 100%;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .control-group {
+        width: 100%;
+        min-width: 0;
+    }
+
+    pre {
+        padding: 20px;
+        margin: 32px 0;
+    }
+
+    blockquote {
+        padding: 20px 24px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    h1,
+    .body-header h1 {
+        font-size: 2rem;
+    }
+
+    p,
+    li {
+        font-size: 1.1rem;
+    }
+
+    .article-header .subtitle {
+        font-size: 1.1rem;
     }
 }
