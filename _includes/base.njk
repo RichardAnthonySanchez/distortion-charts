@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <header class="article-header">
+    <header class="article-header">
+        <div class="container">
             <div class="header-content">
                 <a href="#" class="back-link">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -38,27 +38,25 @@
             </div>
 
             <div class="hero-image-container">
-                <!-- Skeleton UI to mimic the software interface -->
-                <div class="skeleton-shape"
-                    style="top: 5%; left: 5%; width: 90%; height: 90%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);">
-                </div>
-                <div class="skeleton-shape"
-                    style="top: 10%; left: 10%; width: 20%; height: 70%; background: rgba(0, 255, 170, 0.05); border-left: 2px solid var(--accent-green);">
-                </div>
-                <div class="skeleton-shape"
-                    style="top: 20%; right: 15%; width: 40%; height: 30%; background: rgba(255,255,255,0.03);"></div>
-                <div class="skeleton-shape"
-                    style="bottom: 15%; right: 15%; width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-coral);">
-                </div>
-                <div class="skeleton-shape"
-                    style="top: 10%; left: 35%; width: 30%; height: 10px; background: rgba(255,255,255,0.1);"></div>
+                <!-- Skeleton UI -->
+                <div class="skeleton-shape" style="top: 5%; left: 5%; width: 90%; height: 90%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);"></div>
+                <div class="skeleton-shape" style="top: 10%; left: 10%; width: 20%; height: 70%; background: rgba(0, 255, 170, 0.05); border-left: 2px solid var(--accent-green);"></div>
+                <div class="skeleton-shape" style="top: 20%; right: 15%; width: 40%; height: 30%; background: rgba(255,255,255,0.03);"></div>
+                <div class="skeleton-shape" style="bottom: 15%; right: 15%; width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-coral);"></div>
+                <div class="skeleton-shape" style="top: 10%; left: 35%; width: 30%; height: 10px; background: rgba(255,255,255,0.1);"></div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <main class="article-body">
+    <main class="article-body">
+        <div class="container">
+            <div class="body-header">
+                <h1>{{ title }}</h1>
+                <p class="subtitle">{{ subtitle }}</p>
+            </div>
             {{ content | safe }}
-        </main>
-    </div>
+        </div>
+    </main>
 
     <script src="/public/scripts/main.js"></script>
 </body>

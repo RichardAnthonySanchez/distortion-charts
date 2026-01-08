@@ -18,7 +18,7 @@ Clipping was developed to contain signal within a system's operating range. Now 
 
 Whether that's preserving headroom or distorting guitar tones, we can find clipping everywhere.
 
- If clipping can be used in differently then what is it?
+If clipping can be used in differently then what is it?
 ## What Is Clipping?
 
 Clipping, saturation, and distortion: there's many different names but all of these do the same thing — flattens peaks and creates harmonic overtones as a result.  
@@ -29,21 +29,24 @@ A peak is the max amplitude (highest volume) of a signal. This peak is flattened
     <div class="skeleton-shape" style="width: 80%; height: 2px; background: rgba(255,255,255,0.1);"></div>
     <div class="skeleton-shape" style="width: 80%; height: 60px; background: transparent; border: 2px dashed var(--accent-coral); border-radius: 4px;"></div>
 </div>
-_Comparison between pure sine wave and its distorted counterpart_
+
+*Comparison between pure sine wave and its distorted counterpart*
 
 A harmonic comparison can also be made:
 
 <div class="body-skeleton" style="height: 150px;">
     <div class="skeleton-shape" style="bottom: 10px; left: 50%; width: 4px; height: 100px; background: var(--accent-green);"></div>
 </div>
- _Here's how a 1khz sine wave looks on FFT_
+
+*Here's how a 1khz sine wave looks on FFT*
 
 <div class="body-skeleton" style="height: 150px;">
     <div class="skeleton-shape" style="bottom: 10px; left: 50%; width: 4px; height: 100px; background: var(--accent-coral);"></div>
     <div class="skeleton-shape" style="bottom: 10px; left: 60%; width: 4px; height: 60px; background: var(--accent-coral); opacity: 0.5;"></div>
     <div class="skeleton-shape" style="bottom: 10px; left: 70%; width: 4px; height: 40px; background: var(--accent-coral); opacity: 0.3;"></div>
 </div>
-_The same 1khz sine wave with distortion adds harmonic content_
+
+*The same 1khz sine wave with distortion adds harmonic content*
 
 These two approaches that confirm clipping is happening.
 ## Implementing Distortion in DSP
@@ -58,7 +61,8 @@ We can think of digital audio as snapshots of sound over regular time intervals.
     <div class="skeleton-shape" style="width: 8px; height: 90px; background: var(--accent-coral);"></div>
     <div class="skeleton-shape" style="width: 8px; height: 60px; background: var(--accent-coral);"></div>
 </div>
-_A series of samples capturing a signal at regular intervals_
+
+*A series of samples capturing a signal at regular intervals*
 
 We use mathematical mapping to each of these samples based on its input amplitude. The smoothness of our clipping comes from which mathematical mapping approach we use.
 
@@ -85,7 +89,8 @@ Here's my results
 <div class="body-skeleton" style="height: 100px;">
     <code style="font-size: 1.5rem;">44100 Hz</code>
 </div>
-_This session is set to 44.1khz sample rate and the logs confirm each sample is processed by our distortion implementation._
+
+*This session is set to 44.1khz sample rate and the logs confirm each sample is processed by our distortion implementation.*
 ## Expensive Processing
 
 In CD-quality audio there are 44,100 samples happening every second. If our processing is happening at CD-quality then we can expect samples are being processed by our implementation 44,100 times every second.
@@ -188,7 +193,9 @@ The CPU performance is now neck-and-neck. But remember: smaller table size means
 
 
 
-_LUTs tradeoff in resolution displayed visually._
+
+
+*LUTs tradeoff in resolution displayed visually.*
 
 But what does this "lower resolution" mean exactly? Let's find out!
 ## Harmonic Comparison
@@ -222,7 +229,9 @@ Our 64 point LUT implementation has an indistinguishable frequency response from
 <div class="body-skeleton" style="height: 180px;">
     <div class="skeleton-shape" style="width: 80%; height: 2px; background: var(--accent-coral); box-shadow: 0 0 10px var(--accent-coral);"></div>
 </div>
-_I had to offset the values because the overlap is near perfect_
+
+
+*I had to offset the values because the overlap is near perfect*
 
 This could close but what makes it perfect? The only way to know for sure is to perform a null test.
 ### Before Polarity Flip

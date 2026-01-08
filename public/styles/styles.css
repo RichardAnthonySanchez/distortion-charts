@@ -1,12 +1,21 @@
 :root {
-    --bg-color: #050505;
-    --card-bg: #111111;
-    --text-primary: #ffffff;
-    --text-secondary: #999999;
+    --bg-header: #050505;
+    --bg-body: #ffffff;
+    --text-header-primary: #ffffff;
+    --text-header-secondary: #bbbbbb;
+    --text-body-primary: #000000;
+    --text-body-secondary: #444444;
     --accent-coral: #ff7e67;
     --accent-green: #00ffaa;
-    --border-color: #222222;
+    --border-header: #222222;
+    --border-body: #dddddd;
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --accent-yellow: #ffcc00;
+}
+
+::selection {
+    background-color: var(--accent-coral);
+    color: white;
 }
 
 * {
@@ -16,26 +25,30 @@
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+    background-color: var(--bg-body);
     font-family: var(--font-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
 
-.page-wrapper {
+.container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 0 20px;
 }
 
 /* Header Section */
 .article-header {
+    background-color: var(--bg-header);
+    color: var(--text-header-primary);
+    padding: 80px 0;
+}
+
+.article-header .container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 60px;
-    margin-bottom: 80px;
 }
 
 .header-content {
@@ -45,7 +58,7 @@ body {
 .back-link {
     display: flex;
     align-items: center;
-    color: var(--text-secondary);
+    color: var(--text-header-secondary);
     text-decoration: none;
     font-size: 0.9rem;
     margin-bottom: 32px;
@@ -53,7 +66,7 @@ body {
 }
 
 .back-link:hover {
-    color: var(--text-primary);
+    color: var(--text-header-primary);
 }
 
 .back-link svg {
@@ -63,7 +76,7 @@ body {
 .tag {
     display: inline-block;
     background: #1a1a1a;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-header);
     padding: 4px 12px;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -71,19 +84,59 @@ body {
     margin-bottom: 24px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    color: var(--text-header-primary);
 }
 
-h1 {
-    font-size: 3.5rem;
+h1,
+h2,
+h3,
+h4,
+.section-title {
+    color: var(--accent-coral);
     line-height: 1.1;
     font-weight: 800;
     margin-bottom: 24px;
     letter-spacing: -0.02em;
 }
 
-.subtitle {
+.article-header h1 {
+    font-size: 3.5rem;
+}
+
+.article-body .section-title,
+.article-body h2 {
+    font-size: 2.5rem;
+    margin: 80px 0 32px;
+}
+
+.article-body h3 {
+    font-size: 1.8rem;
+    margin: 60px 0 24px;
+}
+
+.body-header {
+    margin-bottom: 60px;
+}
+
+.body-header h1 {
+    color: var(--text-body-primary);
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+}
+
+.body-header .subtitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--text-body-primary);
+    letter-spacing: -0.02em;
+}
+
+.article-header .subtitle {
     font-size: 1.25rem;
-    color: var(--text-secondary);
+    color: var(--text-header-secondary);
     margin-bottom: 40px;
 }
 
@@ -98,12 +151,11 @@ h1 {
     height: 48px;
     border-radius: 50%;
     background: #333;
-    /* Skeleton */
 }
 
 .meta-info {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-header-secondary);
 }
 
 .meta-info span {
@@ -117,7 +169,7 @@ h1 {
     aspect-ratio: 16 / 10;
     background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
     border-radius: 12px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-header);
     position: relative;
     overflow: hidden;
 }
@@ -130,157 +182,205 @@ h1 {
 
 /* Content Body */
 .article-body {
+    padding: 100px 0;
+    color: var(--text-body-primary);
+}
+
+.article-body .container {
     max-width: 800px;
-    margin: 0 auto;
 }
 
 .section-title {
     color: var(--accent-coral);
-    font-size: 2.2rem;
-    margin: 60px 0 24px;
-    font-weight: 700;
+    font-size: 2.5rem;
+    margin: 80px 0 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 p {
-    margin-bottom: 24px;
-    color: #cecece;
-    font-size: 1.1rem;
+    margin-bottom: 32px;
+    color: var(--text-body-primary);
+    font-size: 1.2rem;
+    line-height: 1.7;
+    font-weight: 500;
+    /* Increased weight for readability and impact */
+    letter-spacing: -0.01em;
 }
 
-ul {
-    margin-bottom: 24px;
+a {
+    color: var(--accent-coral);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+em {
+    font-style: italic;
+    color: var(--text-body-secondary);
+}
+
+p em:only-child {
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: -16px;
+    margin-bottom: 32px;
+}
+
+/* Highlight style removed - used ::selection instead */
+
+ul,
+ol {
+    margin-bottom: 32px;
     padding-left: 20px;
+    list-style: none;
+    /* Remove default bullets */
 }
 
 li {
-    margin-bottom: 12px;
-    color: #cecece;
+    margin-bottom: 16px;
+    color: var(--text-body-primary);
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 24px;
+    font-weight: 500;
+}
+
+li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-yellow);
+    border-radius: 50%;
 }
 
 li strong {
-    color: var(--text-primary);
+    color: #000;
 }
 
 /* Chart Styles */
 .chart-container {
-    background: rgba(17, 17, 17, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 20px;
-    padding: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    margin: 60px 0;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: #f8f8f8;
+    border-radius: 24px;
+    padding: 60px;
+    border: 1px solid var(--border-body);
+    margin: 80px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
 .chart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
 }
 
 .chart-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-body-primary);
     letter-spacing: -0.01em;
 }
 
 .chart-controls {
     display: flex;
-    gap: 32px;
+    gap: 40px;
 }
 
 .control-group {
     display: flex;
     flex-direction: column;
+    min-width: 150px;
 }
 
 .control-label {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    margin-bottom: 12px;
+    color: var(--text-body-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 .control-value {
     color: var(--accent-coral);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* Code & Blockquotes */
 pre {
-    background: #111;
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 8px;
+    background: #f4f4f4;
+    border: 1px solid var(--border-body);
+    padding: 32px;
+    border-radius: 12px;
     overflow-x: auto;
-    margin: 32px 0;
+    margin: 48px 0;
 }
 
 code {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.9rem;
-    color: var(--accent-coral);
+    font-size: 0.95rem;
+    color: #c44;
 }
 
 blockquote {
-    border-left: 4px solid var(--accent-coral);
-    padding: 16px 24px;
-    background: rgba(255, 126, 103, 0.05);
-    margin: 32px 0;
-    border-radius: 0 8px 8px 0;
+    border-left: 5px solid var(--accent-coral);
+    padding: 24px 40px;
+    background: #fffafa;
+    margin: 48px 0;
+    border-radius: 0 16px 16px 0;
     font-style: italic;
-    color: var(--text-primary);
+    color: var(--text-body-primary);
+    font-size: 1.25rem;
 }
 
 blockquote a {
     color: var(--accent-coral);
     text-decoration: none;
+    font-weight: 600;
 }
 
-/* Body Skeletons */
 .body-skeleton {
     width: 100%;
-    background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite linear;
-    border-radius: 12px;
-    margin: 32px 0;
+    background: #f8f8f8;
+    border-radius: 16px;
+    margin: 48px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    border: 1px solid var(--border-color);
+    color: var(--text-body-secondary);
+    font-size: 0.9rem;
+    border: 1px solid var(--border-body);
+    position: relative;
+    overflow: hidden;
+}
+
+.body-skeleton .skeleton-shape {
+    position: relative;
+    background: #eee;
 }
 
 .skeleton-caption {
-    margin-top: -12px;
-    margin-bottom: 32px;
-    color: var(--text-secondary);
+    margin-top: -32px;
+    margin-bottom: 48px;
+    color: var(--text-body-secondary);
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: 1rem;
     text-align: center;
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-
-    100% {
-        background-position: 200% 0;
-    }
 }
 
 input[type="range"] {
     width: 100%;
     accent-color: var(--accent-coral);
-    background: #222;
+    background: #ddd;
     height: 6px;
     border-radius: 3px;
     -webkit-appearance: none;
@@ -290,12 +390,13 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     background: var(--accent-coral);
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid var(--bg-color);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 svg#chart {
@@ -305,28 +406,28 @@ svg#chart {
 }
 
 .grid line {
-    stroke: #1a1a1a;
+    stroke: #eee;
 }
 
 .axis text {
-    fill: #555;
-    font-size: 10px;
+    fill: #888;
+    font-size: 11px;
 }
 
 .axis path,
 .axis line {
-    stroke: #222;
+    stroke: #ddd;
 }
 
 .ref-line {
-    stroke: #222;
+    stroke: #ddd;
     stroke-dasharray: 4, 4;
 }
 
 .data-line {
     fill: none;
     stroke: var(--accent-coral);
-    stroke-width: 3;
+    stroke-width: 4;
     stroke-linecap: round;
 }
 
@@ -335,12 +436,17 @@ svg#chart {
 }
 
 @media (max-width: 1024px) {
-    .article-header {
+    .article-header .container {
         flex-direction: column;
+        padding-top: 40px;
         gap: 40px;
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+    }
+
+    .hero-image-container {
+        width: 100%;
     }
 }
