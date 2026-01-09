@@ -1,0 +1,132 @@
+/* Chart Styles */
+.chart-container {
+    background: #f8f8f8;
+    border-radius: 24px;
+    padding: 60px;
+    border: 1px solid var(--border-body);
+    margin: 80px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.chart-container.static {
+    padding: 0;
+    overflow: hidden;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 40px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.control-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: var(--text-body-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.control-value {
+    color: var(--accent-coral);
+    font-weight: 700;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-coral);
+    background: #ddd;
+    height: 6px;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-coral);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container svg,
+.chart-container img {
+    width: 100%;
+    height: auto;
+    background: transparent;
+    display: block;
+}
+
+.grid line {
+    stroke: #e0e0e0;
+}
+
+.axis text {
+    fill: #888;
+    font-size: 11px;
+}
+
+.axis path,
+.axis line {
+    stroke: #ddd;
+}
+
+.ref-line {
+    fill: none;
+    stroke: #ccc;
+    stroke-dasharray: 4, 4;
+}
+
+.data-line {
+    fill: none;
+    stroke: var(--accent-coral);
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+
+.data-dot {
+    fill: var(--accent-coral);
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 30px 20px;
+        margin: 40px 0;
+        border-radius: 16px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .chart-controls {
+        width: 100%;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .control-group {
+        width: 100%;
+        min-width: 0;
+    }
+}

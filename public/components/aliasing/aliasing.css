@@ -1,0 +1,129 @@
+.aliasing-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-body-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+}
+
+.aliasing-control-panel {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.aliasing-control-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.aliasing-control-label {
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 70px;
+}
+
+.aliasing-control-value {
+    color: var(--accent-coral);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.aliasing-slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    accent-color: var(--accent-coral);
+}
+
+.aliasing-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-coral);
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.aliasing-slider::-webkit-slider-thumb:hover {
+    background: #FFB74D;
+    transform: scale(1.1);
+}
+
+.aliasing-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-coral);
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.aliasing-slider::-moz-range-thumb:hover {
+    background: #FFB74D;
+    transform: scale(1.1);
+}
+
+.aliasing-chart-area {
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.aliasing-wave-path {
+    fill: none;
+    stroke-width: 2.5;
+}
+
+.aliasing-continuous-wave {
+    stroke: #ccc;
+    stroke-dasharray: 4, 4;
+}
+
+.aliasing-sampled-wave {
+    stroke: var(--accent-coral);
+    stroke-width: 3;
+}
+
+.aliasing-sample-point {
+    stroke: #fff;
+    stroke-width: 2;
+}
+
+.aliasing-sample-line {
+    stroke: var(--accent-coral);
+    stroke-width: 1;
+    stroke-dasharray: 2, 2;
+}
+
+.aliasing-wave-label {
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--text-body-secondary);
+}
+
+.aliasing-axis-line {
+    stroke: #ddd;
+    stroke-width: 1;
+}
+
+.aliasing-grid-line {
+    stroke: #e0e0e0;
+    stroke-width: 1;
+}
+
+.aliasing-axis-label {
+    font-size: 11px;
+    fill: #888;
+    font-weight: 500;
+}

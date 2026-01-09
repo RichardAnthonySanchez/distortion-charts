@@ -3,6 +3,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("public/styles");
     eleventyConfig.addPassthroughCopy("public/scripts");
     eleventyConfig.addPassthroughCopy("public/img");
+    eleventyConfig.addPassthroughCopy("public/components");
     eleventyConfig.addPassthroughCopy("public/markdown/*.png"); // If images are there
 
     eleventyConfig.addFilter("readableDate", (dateObj) => {

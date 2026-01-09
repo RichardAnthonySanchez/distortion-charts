@@ -1,0 +1,113 @@
+/* Code & Blockquotes */
+pre {
+    background: #f4f4f4;
+    border: 1px solid var(--border-body);
+    padding: 32px;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 48px 0;
+}
+
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.95rem;
+    color: #c44;
+}
+
+blockquote {
+    border-left: 5px solid var(--accent-coral);
+    padding: 24px 40px;
+    background: #ffdcd0;
+    margin: 48px 0;
+    border-radius: 0 16px 16px 0;
+    font-style: italic;
+    color: var(--text-body-primary);
+    font-size: 1.25rem;
+}
+
+blockquote a {
+    color: var(--accent-coral);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.comparison-container {
+    width: 100%;
+    background: #1a1a1a;
+    border-radius: 16px;
+    margin: 48px 0;
+    padding: 32px 48px;
+    border: 1px solid #050505;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-container code {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.status-success {
+    color: #10B981;
+}
+
+.status-warning {
+    color: #ffcc00;
+}
+
+.status-danger {
+    color: #ff7e67;
+}
+
+/* Hero Skeleton */
+.hero-image-container {
+    flex: 1;
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border-radius: 12px;
+    border: 1px solid var(--border-header);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+}
+
+.body-skeleton .skeleton-shape {
+    position: relative;
+    background: #eee;
+}
+
+.skeleton-caption {
+    margin-top: -32px;
+    margin-bottom: 48px;
+    color: var(--text-body-secondary);
+    font-style: italic;
+    font-size: 1rem;
+    text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-image-container {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    pre {
+        padding: 20px;
+        margin: 32px 0;
+    }
+
+    blockquote {
+        padding: 20px 24px;
+        font-size: 1.1rem;
+    }
+}
