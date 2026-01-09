@@ -286,6 +286,11 @@ li strong {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
+.chart-container.static {
+    padding: 0;
+    overflow: hidden;
+}
+
 .chart-header {
     display: flex;
     justify-content: space-between;
@@ -578,6 +583,7 @@ input[type="range"]::-webkit-slider-thumb {
     background: #ddd;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
     accent-color: var(--accent-coral);
 }
 

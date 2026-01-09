@@ -39,11 +39,15 @@ Think of it like this: a peak is the maximum amplitude (loudest point) of a sign
 
 We can see this harmonically, too:
 
-<img src="/public/img/1k_sine_fundamental.svg" alt="Fundamental of 1khz sine wave">
+<div class="chart-container static">
+    <img src="/public/img/1k_sine_fundamental.svg" alt="Fundamental of 1khz sine wave">
+</div>
 
 *Here's how a 1khz sine wave looks on FFT*
 
-<img src="/public/img/1k_sine_overtones.svg" alt="Overtones of 1khz sine wave with distortion">
+<div class="chart-container static">
+    <img src="/public/img/1k_sine_overtones.svg" alt="Overtones of 1khz sine wave with distortion">
+</div>
 
 *The same 1khz sine wave with distortion adds harmonic content*
 
@@ -54,7 +58,9 @@ These are the two fingerprints that confirm clipping is happening: the flattened
 Here's where things get interesting. We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
  
-<img src="/public/img/sample_and_hold.svg" alt="How samples are captured at regular intervals">
+<div class="chart-container static">
+    <img src="/public/img/sample_and_hold.svg" alt="How samples are captured at regular intervals">
+</div>
 
 *A series of samples capturing a signal at regular intervals*
 
@@ -201,7 +207,9 @@ Here's why: Small LUT sizes force coarse steps in our approximated tanh() functi
 
 Watch what happens when we reduce our LUT to just 4 points:
 
-<img src="/public/img/4_point_lut.svg" alt="4 Point LUT Harmonic Analysis">
+<div class="chart-container static">
+    <img src="/public/img/4_point_lut.svg" alt="4 Point LUT Harmonic Analysis">
+</div>
 
 
 
@@ -217,7 +225,9 @@ I used the same sine wave sweep and compared both distortions. Here's what I fou
 
 Our 64-point LUT implementation has an indistinguishable frequency response from tanh().
 
-<img src="/public/img/64_point_lut.svg" alt="64 Point LUT Harmonic Analysis">
+<div class="chart-container static">
+    <img src="/public/img/64_point_lut.svg" alt="64 Point LUT Harmonic Analysis">
+</div>
 
 
 *I had to offset the values because the overlap is near perfect*
@@ -230,7 +240,9 @@ A null test works by flipping the polarity of one signal and adding it to the ot
 Before polarity flip: Peak at -12dBFS
 After polarity flip: Peak at -79.1dBFS
 
-<img src="/public/img/null_test.svg" alt="Null Test">
+<div class="chart-container static">
+    <img src="/public/img/null_test.svg" alt="Null Test">
+</div>
 
 That's a reduction of 67dB:virtually silence. This confirms our 64-point LUT is essentially indistinguishable from tanh().
 
