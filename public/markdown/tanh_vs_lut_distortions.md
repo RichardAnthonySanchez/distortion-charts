@@ -86,9 +86,9 @@ current_time = time_precise();
 
 Here's what this reveals:
 
-<div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">Session Sample Rate: 44100 Hz CPU</code>
-    <code style="font-size: 1.5rem;">samples_last_second: ~44288 Hz CPU</code>
+<div class="comparison-container">
+    <code class="status-warning" style="font-size: 1.5rem;">Session Sample Rate: 44100 Hz CPU</code>
+    <code class="status-success" style="font-size: 1.5rem;">samples_last_second: 44288 Hz CPU</code>
 </div>
 
 *This session is set to 44.1khz sample rate and the logs confirm each sample is processed by our distortion implementation.*
@@ -122,9 +122,9 @@ Let me show you what I found. We'll compare tanh() against several LUT implement
 
 After using a table of 1024 points, our LUT outperforms tanh() by 57% on CPU.
 
-<div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
-    <code style="font-size: 1.5rem;">LUT (1024): 0.56% CPU</code>
+<div class="comparison-container">
+    <code class="status-danger" style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code class="status-success" style="font-size: 1.5rem;">LUT (1024): 0.56% CPU</code>
 </div>
 
 "57% CPU savings sounds impressive:but what does that actually mean? In a typical DAW session, that's the difference between running 8 instances of a distortion plugin versus 12. Or preventing audio dropouts when your project hits 40+ tracks."
@@ -148,9 +148,9 @@ This should give us better accuracy while keeping the small table size. More acc
 
 Watch what happens:
 
-<div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
-    <code style="font-size: 1.5rem;">LUT (1024 w/ interpolation): 0.94% CPU</code>
+<div class="comparison-container">
+    <code class="status-success" style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code class="status-danger" style="font-size: 1.5rem;">LUT (1024 w/ interpolation): 0.94% CPU</code>
 </div>
 
 
@@ -170,9 +170,9 @@ Let's try it.
 
 I reduced the table size from 1024 to 512 points. Here are the results:
 
-<div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
-    <code style="font-size: 1.5rem;">LUT (512 w/ interpolation): 0.88% CPU</code>
+<div class="comparison-container">
+    <code class="status-success" style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code class="status-warning" style="font-size: 1.5rem;">LUT (512 w/ interpolation): 0.88% CPU</code>
 </div>
 
 
@@ -255,9 +255,9 @@ Here's where our initial assumption falls apart completely.
 
 Even after reducing our table size to 64 points:the minimum needed to avoid artifacts:the performance is still roughly the same as tanh() in my implementation.
 
-<div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">Tanh(): 0.97% CPU</code>
-    <code style="font-size: 1.5rem;">LUT (64 w/ interpolation): 0.98% CPU</code>
+<div class="comparison-container">
+    <code class="status-success" style="font-size: 1.5rem;">Tanh(): 0.97% CPU</code>
+    <code class="status-warning" style="font-size: 1.5rem;">LUT (64 w/ interpolation): 0.98% CPU</code>
 </div>
 
 Remember our original question? "Which is faster:looking up a value, or computing a function?"

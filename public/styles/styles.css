@@ -358,20 +358,35 @@ blockquote a {
     font-weight: 600;
 }
 
-.body-skeleton {
+.comparison-container {
     width: 100%;
-    background: #f8f8f8;
+    background: #1a1a1a;
     border-radius: 16px;
     margin: 48px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-body-secondary);
-    font-size: 0.9rem;
-    border: 1px solid var(--border-body);
-    position: relative;
-    overflow: hidden;
+    padding: 32px 48px;
+    border: 1px solid #050505;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-container code {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.status-success {
+    color: #10B981;
+}
+
+.status-warning {
+    color: #ffcc00;
+}
+
+.status-danger {
+    color: #ff7e67;
 }
 
 .body-skeleton .skeleton-shape {
