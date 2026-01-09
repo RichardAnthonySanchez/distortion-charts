@@ -35,23 +35,6 @@ Think of it like this: a peak is the maximum amplitude (loudest point) of a sign
     <svg id="oscilloscope-chart"></svg>
 </div>
 
-<div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">Static Waveshaper (Index-Spaced)</h3>
-        <div class="chart-controls">
-            <div class="control-group">
-                <div class="control-label">Drive <span class="control-value" id="driveValStatic">1.0</span></div>
-                <input id="driveStatic" type="range" min="0" max="10" step="0.1" value="1">
-            </div>
-            <div class="control-group">
-                <div class="control-label">Samples <span class="control-value" id="sampleValStatic">64</span></div>
-                <input id="samplesStatic" type="range" min="4" max="256" step="1" value="64">
-            </div>
-        </div>
-    </div>
-    <svg id="chartStatic"></svg>
-</div>
-
 *Comparison between pure sine wave and its distorted counterpart*
 
 We can see this harmonically, too:
@@ -77,17 +60,6 @@ These are the two fingerprints that confirm clipping is happening: the flattened
 Here's where things get interesting. We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
  
-<div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">Aliasing & Sample Rate Visualizer</h3>
-        <div class="aliasing-control-group">
-            <div class="aliasing-control-label">Samples</div>
-            <input id="aliasingSampleSlider" class="aliasing-slider" type="range" min="16" max="64" step="1" value="32">
-            <div class="aliasing-control-value" id="aliasingSampleValue">32</div>
-        </div>
-    </div>
-    <svg id="aliasingChart"></svg>
-</div>
 
 *A series of samples capturing a signal at regular intervals*
 
@@ -114,7 +86,8 @@ current_time = time_precise();
 Here's what this reveals:
 
 <div class="body-skeleton" style="height: 100px;">
-    <code style="font-size: 1.5rem;">44100 Hz</code>
+    <code style="font-size: 1.5rem;">Session Sample Rate: 44100 Hz CPU</code>
+    <code style="font-size: 1.5rem;">samples_last_second: ~44288 Hz CPU</code>
 </div>
 
 *This session is set to 44.1khz sample rate and the logs confirm each sample is processed by our distortion implementation.*
@@ -148,21 +121,9 @@ Let me show you what I found. We'll compare tanh() against several LUT implement
 
 After using a table of 1024 points, our LUT outperforms tanh() by 57% on CPU.
 
-<div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">LUT Distortion (Discrete)</h3>
-        <div class="chart-controls">
-            <div class="control-group">
-                <div class="control-label">Drive <span class="control-value" id="driveVal">1.0</span></div>
-                <input id="drive" type="range" min="0" max="10" step="0.1" value="1">
-            </div>
-            <div class="control-group">
-                <div class="control-label">Samples <span class="control-value" id="sampleVal">16</span></div>
-                <input id="samples" type="range" min="4" max="24" step="1" value="16">
-            </div>
-        </div>
-    </div>
-    <svg id="chart"></svg>
+<div class="body-skeleton" style="height: 100px;">
+    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code style="font-size: 1.5rem;">LUT (1024): 0.56% CPU</code>
 </div>
 
 "57% CPU savings sounds impressive—but what does that actually mean? In a typical DAW session, that's the difference between running 8 instances of a distortion plugin versus 12. Or preventing audio dropouts when your project hits 40+ tracks."
@@ -186,21 +147,9 @@ This should give us better accuracy while keeping the small table size. More acc
 
 Watch what happens:
 
-<div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">Static Waveshaper (Interpolated)</h3>
-        <div class="chart-controls">
-            <div class="control-group">
-                <div class="control-label">Drive <span class="control-value" id="driveValInterpolated">1.0</span></div>
-                <input id="driveInterpolated" type="range" min="0" max="10" step="0.1" value="1">
-            </div>
-            <div class="control-group">
-                <div class="control-label">Samples <span class="control-value" id="sampleValInterpolated">16</span></div>
-                <input id="samplesInterpolated" type="range" min="4" max="24" step="1" value="16">
-            </div>
-        </div>
-    </div>
-    <svg id="chartInterpolated"></svg>
+<div class="body-skeleton" style="height: 100px;">
+    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code style="font-size: 1.5rem;">LUT (1024 w/ interpolation): 0.94% CPU</code>
 </div>
 
 
@@ -220,7 +169,10 @@ Let's try it.
 
 I reduced the table size from 1024 to 512 points. Here are the results:
 
-
+<div class="body-skeleton" style="height: 100px;">
+    <code style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
+    <code style="font-size: 1.5rem;">LUT (512 w/ interpolation): 0.88% CPU</code>
+</div>
 
 
 The CPU performance is now neck-and-neck with tanh(). We've gained nothing.
@@ -229,6 +181,17 @@ But remember: smaller table size means lower resolution. And lower resolution me
 
 
 
+<div class="chart-container">
+    <div class="chart-header">
+        <h3 class="chart-title">Aliasing & Sample Rate Visualizer</h3>
+        <div class="aliasing-control-group">
+            <div class="aliasing-control-label">Samples</div>
+            <input id="aliasingSampleSlider" class="aliasing-slider" type="range" min="16" max="64" step="1" value="32">
+            <div class="aliasing-control-value" id="aliasingSampleValue">32</div>
+        </div>
+    </div>
+    <svg id="aliasingChart"></svg>
+</div>
 
 *LUTs tradeoff in resolution displayed visually.*
 
@@ -283,6 +246,11 @@ Here's where our initial assumption falls apart completely.
 
 Even after reducing our table size to 64 points—the minimum needed to avoid artifacts—the performance is still roughly the same as tanh() in my implementation.
 
+<div class="body-skeleton" style="height: 100px;">
+    <code style="font-size: 1.5rem;">Tanh(): 0.97% CPU</code>
+    <code style="font-size: 1.5rem;">LUT (64 w/ interpolation): 0.98% CPU</code>
+</div>
+
 Remember our original question? "Which is faster—looking up a value, or computing a function?"
 
 The answer turned out to be misleading. Because LUTs don't just look up values. A properly implemented LUT that avoids quantization artifacts requires:
@@ -322,4 +290,3 @@ Want to test these results in your own environment? The complete source code is 
 Want to contribute? I'd love to see implementations in C++ and Faust to compare against these JSFX results. Just open a PR.
 
 The numbers might be different on your system—and that's exactly the point.
-
