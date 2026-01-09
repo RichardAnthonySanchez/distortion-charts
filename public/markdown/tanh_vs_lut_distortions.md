@@ -39,17 +39,11 @@ Think of it like this: a peak is the maximum amplitude (loudest point) of a sign
 
 We can see this harmonically, too:
 
-<div class="body-skeleton" style="height: 150px;">
-    <div class="skeleton-shape" style="bottom: 10px; left: 50%; width: 4px; height: 100px; background: var(--accent-green);"></div>
-</div>
+<img src="/public/img/1k_sine_fundamental.svg" alt="Fundamental of 1khz sine wave">
 
 *Here's how a 1khz sine wave looks on FFT*
 
-<div class="body-skeleton" style="height: 150px;">
-    <div class="skeleton-shape" style="bottom: 10px; left: 50%; width: 4px; height: 100px; background: var(--accent-coral);"></div>
-    <div class="skeleton-shape" style="bottom: 10px; left: 60%; width: 4px; height: 60px; background: var(--accent-coral); opacity: 0.5;"></div>
-    <div class="skeleton-shape" style="bottom: 10px; left: 70%; width: 4px; height: 40px; background: var(--accent-coral); opacity: 0.3;"></div>
-</div>
+<img src="/public/img/1k_sine_overtones.svg" alt="Overtones of 1khz sine wave with distortion">
 
 *The same 1khz sine wave with distortion adds harmonic content*
 
