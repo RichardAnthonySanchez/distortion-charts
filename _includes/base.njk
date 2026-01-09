@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title | default("StageBox x Matt Robertson – Case Study") }}</title>
-    <link rel="stylesheet" href="/public/styles/styles.css">
+    <link rel="stylesheet" href="{{ '/public/styles/styles.css' | url }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 </head>
 
@@ -27,7 +27,7 @@
 
                 <div class="author-meta">
                     <div class="author-avatar">
-                        <img src="/public/img/profile_pic_tony_small.png" alt="Richard Anthony Sanchez">
+                        <img src="{{ '/public/img/profile_pic_tony_small.png' | url }}" alt="Richard 'Tony' Sanchez">
                     </div>
                     <div class="meta-info">
                         <strong>{{ author | default("Richard Anthony Sanchez") }}</strong>
@@ -60,7 +60,7 @@
         </div>
     </main>
 
-    <script src="/public/scripts/main.js"></script>
+    <script src="{{ '/public/scripts/main.js' | url }}"></script>
 </body>
 
 </html>

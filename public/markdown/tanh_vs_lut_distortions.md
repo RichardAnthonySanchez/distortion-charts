@@ -40,13 +40,13 @@ Think of it like this: a peak is the maximum amplitude (loudest point) of a sign
 We can see this harmonically, too:
 
 <div class="chart-container static">
-    <img src="/public/img/1k_sine_fundamental.svg" alt="Fundamental of 1khz sine wave">
+    <img src="{{ '/public/img/1k_sine_fundamental.svg' | url }}" alt="Fundamental of 1khz sine wave">
 </div>
 
 *Here's how a 1khz sine wave looks on FFT*
 
 <div class="chart-container static">
-    <img src="/public/img/1k_sine_overtones.svg" alt="Overtones of 1khz sine wave with distortion">
+    <img src="{{ '/public/img/1k_sine_overtones.svg' | url }}" alt="Overtones of 1khz sine wave with distortion">
 </div>
 
 *The same 1khz sine wave with distortion adds harmonic content*
@@ -59,7 +59,7 @@ Here's where things get interesting. We can think of digital audio as snapshots 
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
  
 <div class="chart-container static">
-    <img src="/public/img/sample_and_hold.svg" alt="How samples are captured at regular intervals">
+    <img src="{{ '/public/img/sample_and_hold.svg' | url }}" alt="How samples are captured at regular intervals">
 </div>
 
 *A series of samples capturing a signal at regular intervals*
@@ -208,7 +208,7 @@ Here's why: Small LUT sizes force coarse steps in our approximated tanh() functi
 Watch what happens when we reduce our LUT to just 4 points:
 
 <div class="chart-container static">
-    <img src="/public/img/4_point_lut.svg" alt="4 Point LUT Harmonic Analysis">
+    <img src="{{ '/public/img/4_point_lut.svg' | url }}" alt="4 Point LUT Harmonic Analysis">
 </div>
 
 
@@ -226,7 +226,7 @@ I used the same sine wave sweep and compared both distortions. Here's what I fou
 Our 64-point LUT implementation has an indistinguishable frequency response from tanh().
 
 <div class="chart-container static">
-    <img src="/public/img/64_point_lut.svg" alt="64 Point LUT Harmonic Analysis">
+    <img src="{{ '/public/img/64_point_lut.svg' | url }}" alt="64 Point LUT Harmonic Analysis">
 </div>
 
 
@@ -241,7 +241,7 @@ Before polarity flip: Peak at -12dBFS
 After polarity flip: Peak at -79.1dBFS
 
 <div class="chart-container static">
-    <img src="/public/img/null_test.svg" alt="Null Test">
+    <img src="{{ '/public/img/null_test.svg' | url }}" alt="Null Test">
 </div>
 
 That's a reduction of 67dB:virtually silence. This confirms our 64-point LUT is essentially indistinguishable from tanh().
