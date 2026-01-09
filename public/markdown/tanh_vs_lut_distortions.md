@@ -23,8 +23,8 @@ Clipping, saturation, distortion—there's many different names, but these all d
 Think of it like this: a peak is the maximum amplitude (loudest point) of a signal. When you apply distortion, you're squashing that peak down, like pressing your palm onto a spike. The peak flattens, but something has to give—and what gives is the creation of new frequencies that weren't there before.
 
 <div class="chart-container">
-    <div class=" ">
-        <h3 class=" ">Signal Clipping Visualizer</h3>
+    <div class="chart-header">
+        <h3 class="chart-title">Signal Clipping Visualizer</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveValue">1.0</span></div>
@@ -36,8 +36,8 @@ Think of it like this: a peak is the maximum amplitude (loudest point) of a sign
 </div>
 
 <div class="chart-container">
-    <div class=" ">
-        <h3 class=" ">Static Waveshaper (Index-Spaced)</h3>
+    <div class="chart-header">
+        <h3 class="chart-title">Static Waveshaper (Index-Spaced)</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveValStatic">1.0</span></div>
@@ -77,11 +77,16 @@ These are the two fingerprints that confirm clipping is happening: the flattened
 Here's where things get interesting. We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
  
-<div class="body-skeleton" style="height: 120px; flex-direction: row; gap: 8px;">
-    <div class="skeleton-shape" style="width: 8px; height: 40px; background: var(--accent-coral);"></div>
-    <div class="skeleton-shape" style="width: 8px; height: 70px; background: var(--accent-coral);"></div>
-    <div class="skeleton-shape" style="width: 8px; height: 90px; background: var(--accent-coral);"></div>
-    <div class="skeleton-shape" style="width: 8px; height: 60px; background: var(--accent-coral);"></div>
+<div class="chart-container">
+    <div class="chart-header">
+        <h3 class="chart-title">Aliasing & Sample Rate Visualizer</h3>
+        <div class="aliasing-control-group">
+            <div class="aliasing-control-label">Samples</div>
+            <input id="aliasingSampleSlider" class="aliasing-slider" type="range" min="16" max="64" step="1" value="32">
+            <div class="aliasing-control-value" id="aliasingSampleValue">32</div>
+        </div>
+    </div>
+    <svg id="aliasingChart"></svg>
 </div>
 
 *A series of samples capturing a signal at regular intervals*
@@ -144,8 +149,8 @@ Let me show you what I found. We'll compare tanh() against several LUT implement
 After using a table of 1024 points, our LUT outperforms tanh() by 57% on CPU.
 
 <div class="chart-container">
-    <div class=" ">
-        <h3 class=" ">LUT Distortion (Discrete)</h3>
+    <div class="chart-header">
+        <h3 class="chart-title">LUT Distortion (Discrete)</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveVal">1.0</span></div>
@@ -182,8 +187,8 @@ This should give us better accuracy while keeping the small table size. More acc
 Watch what happens:
 
 <div class="chart-container">
-    <div class=" ">
-        <h3 class=" ">Static Waveshaper (Interpolated)</h3>
+    <div class="chart-header">
+        <h3 class="chart-title">Static Waveshaper (Interpolated)</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveValInterpolated">1.0</span></div>
