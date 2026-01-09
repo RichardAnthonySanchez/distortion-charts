@@ -339,7 +339,7 @@ code {
 blockquote {
     border-left: 5px solid var(--accent-coral);
     padding: 24px 40px;
-    background: #fffafa;
+    background: #ffdcd0;
     margin: 48px 0;
     border-radius: 0 16px 16px 0;
     font-style: italic;
