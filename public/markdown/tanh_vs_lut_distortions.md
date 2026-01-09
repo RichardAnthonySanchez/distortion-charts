@@ -47,13 +47,14 @@ We can see this harmonically, too:
 
 *The same 1khz sine wave with distortion adds harmonic content*
 
-The same 1kHz sine wave with distortion suddenly has harmonics at 2kHz, 3kHz, 4kHz—a whole series of new frequencies generated from that flattening.
+The same 1kHz sine wave with distortion suddenly has harmonics at 3kHz, 5kHz, 7kHz, 9kHz— a whole series of new frequencies generated from that flattening.
 These are the two fingerprints that confirm clipping is happening: the flattened waveform and the harmonic series.
 ## Implementing Distortion in DSP
 
 Here's where things get interesting. We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
  
+<img src="/public/img/sample_and_hold.svg" alt="How samples are captured at regular intervals">
 
 *A series of samples capturing a signal at regular intervals*
 
