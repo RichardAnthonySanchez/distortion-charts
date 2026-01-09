@@ -206,6 +206,8 @@ Here's why: Small LUT sizes force coarse steps in our approximated tanh() functi
 
 Watch what happens when we reduce our LUT to just 4 points:
 
+<img src="/public/img/4_point_lut.svg" alt="4 Point LUT Harmonic Analysis">
+
 
 
 The red line is tanh(), the yellow is our 4-point LUT. See those extra harmonics above 10kHz? Those are artifacts—frequencies we're adding to the signal that shouldn't be there. This is quantization noise made audible.
@@ -220,9 +222,7 @@ I used the same sine wave sweep and compared both distortions. Here's what I fou
 
 Our 64-point LUT implementation has an indistinguishable frequency response from tanh().
 
-<div class="body-skeleton" style="height: 180px;">
-    <div class="skeleton-shape" style="width: 80%; height: 2px; background: var(--accent-coral); box-shadow: 0 0 10px var(--accent-coral);"></div>
-</div>
+<img src="/public/img/64_point_lut.svg" alt="64 Point LUT Harmonic Analysis">
 
 
 *I had to offset the values because the overlap is near perfect*
