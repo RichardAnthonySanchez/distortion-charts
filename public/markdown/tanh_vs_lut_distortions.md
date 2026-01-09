@@ -2,7 +2,7 @@
 layout: base.njk
 title: "Static vs LUT Distortion: A Performance Comparison"
 subtitle: "Managing signal overhead and computational efficiency in digital audio"
-author: "Richard Anthony Sanchez"
+author: "Richard 'Tony' Sanchez"
 date: 2026-01-08
 readTime: "8 min read"
 tag: "DSP Research"
