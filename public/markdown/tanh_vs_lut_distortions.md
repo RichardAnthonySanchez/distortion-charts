@@ -22,9 +22,34 @@ But if clipping can be used so differently, what actually is it?
 Clipping, saturation, distortion—there's many different names, but these all do the same fundamental thing: they flatten peaks and create harmonic overtones as a result.
 Think of it like this: a peak is the maximum amplitude (loudest point) of a signal. When you apply distortion, you're squashing that peak down, like pressing your palm onto a spike. The peak flattens, but something has to give—and what gives is the creation of new frequencies that weren't there before.
 
-<div class="body-skeleton" style="height: 200px;">
-    <div class="skeleton-shape" style="width: 80%; height: 2px; background: rgba(255,255,255,0.1);"></div>
-    <div class="skeleton-shape" style="width: 80%; height: 60px; background: transparent; border: 2px dashed var(--accent-coral); border-radius: 4px;"></div>
+<div class="chart-container">
+    <div class=" ">
+        <h3 class=" ">Signal Clipping Visualizer</h3>
+        <div class="chart-controls">
+            <div class="control-group">
+                <div class="control-label">Drive <span class="control-value" id="driveValue">1.0</span></div>
+                <input id="driveSlider" type="range" min="1" max="10" step="0.1" value="1">
+            </div>
+        </div>
+    </div>
+    <svg id="oscilloscope-chart"></svg>
+</div>
+
+<div class="chart-container">
+    <div class=" ">
+        <h3 class=" ">Static Waveshaper (Index-Spaced)</h3>
+        <div class="chart-controls">
+            <div class="control-group">
+                <div class="control-label">Drive <span class="control-value" id="driveValStatic">1.0</span></div>
+                <input id="driveStatic" type="range" min="0" max="10" step="0.1" value="1">
+            </div>
+            <div class="control-group">
+                <div class="control-label">Samples <span class="control-value" id="sampleValStatic">64</span></div>
+                <input id="samplesStatic" type="range" min="4" max="256" step="1" value="64">
+            </div>
+        </div>
+    </div>
+    <svg id="chartStatic"></svg>
 </div>
 
 *Comparison between pure sine wave and its distorted counterpart*
@@ -119,8 +144,8 @@ Let me show you what I found. We'll compare tanh() against several LUT implement
 After using a table of 1024 points, our LUT outperforms tanh() by 57% on CPU.
 
 <div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">LUT Distortion (Discrete)</h3>
+    <div class=" ">
+        <h3 class=" ">LUT Distortion (Discrete)</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveVal">1.0</span></div>
@@ -157,8 +182,8 @@ This should give us better accuracy while keeping the small table size. More acc
 Watch what happens:
 
 <div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">Static Waveshaper (Interpolated)</h3>
+    <div class=" ">
+        <h3 class=" ">Static Waveshaper (Interpolated)</h3>
         <div class="chart-controls">
             <div class="control-group">
                 <div class="control-label">Drive <span class="control-value" id="driveValInterpolated">1.0</span></div>
@@ -190,22 +215,6 @@ Let's try it.
 
 I reduced the table size from 1024 to 512 points. Here are the results:
 
-<div class="chart-container">
-    <div class="chart-header">
-        <h3 class="chart-title">Static Waveshaper (Index-Spaced)</h3>
-        <div class="chart-controls">
-            <div class="control-group">
-                <div class="control-label">Drive <span class="control-value" id="driveValStatic">1.0</span></div>
-                <input id="driveStatic" type="range" min="0" max="10" step="0.1" value="1">
-            </div>
-            <div class="control-group">
-                <div class="control-label">Samples <span class="control-value" id="sampleValStatic">64</span></div>
-                <input id="samplesStatic" type="range" min="4" max="256" step="1" value="64">
-            </div>
-        </div>
-    </div>
-    <svg id="chartStatic"></svg>
-</div>
 
 
 

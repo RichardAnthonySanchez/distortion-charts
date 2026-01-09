@@ -293,12 +293,7 @@ li strong {
     margin-bottom: 40px;
 }
 
-.chart-title {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-body-primary);
-    letter-spacing: -0.01em;
-}
+
 
 .chart-controls {
     display: flex;
@@ -410,14 +405,15 @@ input[type="range"]::-webkit-slider-thumb {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-svg#chart {
+.chart-container svg {
     width: 100%;
     height: auto;
     background: transparent;
+    display: block;
 }
 
 .grid line {
-    stroke: #eee;
+    stroke: #e0e0e0;
 }
 
 .axis text {
@@ -431,7 +427,8 @@ svg#chart {
 }
 
 .ref-line {
-    stroke: #ddd;
+    fill: none;
+    stroke: #ccc;
     stroke-dasharray: 4, 4;
 }
 
