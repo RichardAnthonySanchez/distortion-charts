@@ -213,7 +213,7 @@ p {
     margin-bottom: 32px;
     color: var(--text-body-primary);
     font-size: 1.2rem;
-    line-height: 1.7;
+    line-height: 2;
     font-weight: 500;
     /* Increased weight for readability and impact */
     letter-spacing: -0.01em;
