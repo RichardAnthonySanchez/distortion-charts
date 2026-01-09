@@ -230,6 +230,8 @@ A null test works by flipping the polarity of one signal and adding it to the ot
 Before polarity flip: Peak at -12dBFS
 After polarity flip: Peak at -79.1dBFS
 
+<img src="/public/img/null_test.svg" alt="Null Test">
+
 That's a reduction of 67dB—virtually silence. This confirms our 64-point LUT is essentially indistinguishable from tanh().
 
 So we've found the sweet spot, right? 64 points gives us perfect accuracy. LUTs win!
