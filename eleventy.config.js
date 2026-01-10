@@ -6,6 +6,16 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("public/components");
     eleventyConfig.addPassthroughCopy("public/markdown/*.png"); // If images are there
 
+    // Explicitly watch Markdown and Nunjucks files
+    eleventyConfig.addWatchTarget("public/markdown/**/*.md");
+    eleventyConfig.addWatchTarget("_includes/**/*.njk");
+
+    eleventyConfig.setServerOptions({
+        watch: ["dist/**/*.html"],
+        liveReload: true,
+        domDiff: false, // Force full reload for markdown/nunjucks changes
+    });
+
     eleventyConfig.addFilter("readableDate", (dateObj) => {
         if (!dateObj) return "";
         const date = new Date(dateObj);
