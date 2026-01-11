@@ -12,7 +12,7 @@ permalink: /index.html
 Here's a question that seems like it has an obvious answer: 
 Which is faster, looking up a value in a table, or computing a complex mathematical function?
 
-If you said "looking it up," you're in good company. That's the intuition that led audio engineers to use lookup tables (LUTs) for decades. After all, memory access should be faster than math, right?
+If you said "looking it up," you're in good company. That's the intuition that led audio engineers to use lookup tables (LUTs). After all, memory access should be faster than math, right?
 But watch what happens when we actually test this assumption.
 ## The Start of Digital Distortion
 
@@ -22,7 +22,7 @@ Clipping was originally developed to contain signal peaks within a system's oper
 But if clipping can be used so differently, what actually is it?
 ## What Is Clipping?
 
-Clipping, saturation, distortion. There's many different names, but these all do the same fundamental thing: they flatten peaks and create harmonic overtones as a result.
+Clipping, saturation, distortion. There's many different names, but these all do the same fundamental thing: they flatten peaks and create harmonic overtones.
 
 Think of it like this - a peak is the maximum amplitude (loudest point) of a signal. When you apply distortion, you're squashing that peak down, like pressing your palm onto a spike. To see it in action use the drive slider below.
 
@@ -41,9 +41,9 @@ Think of it like this - a peak is the maximum amplitude (loudest point) of a sig
 
 *Distortion flattens peaks*
 
-The peak flattens, but something has to give. Overdrive creates new frequencies that weren't there before as a result of that flattening.
+The peak flattens, but something has to give. Overdrive creates new frequencies that weren't there before as a result of the flattening.
 
-We can see this harmonic behavior under and FFT:
+We can see this harmonic behavior under an FFT:
 
 <div class="chart-container static">
     <img src="{{ '/public/img/1k_sine_fundamental.svg' | url }}" alt="Fundamental of 1khz sine wave">
@@ -72,9 +72,9 @@ Here's how it looks:
 
 *A series of samples capturing a signal at regular intervals. The effect is dramatic for demonstration purposes.*
 
-Now here's the key: we give position instructionsto each of these samples based on its input amplitude. Want smooth, warm saturation? Use one set of instructions. Want aggressive, fuzzy distortion? Use another. The smoothness of our clipping comes entirely from which set of instructions we choose.
+Now here's the key: each distortion algorithm processes these samples differently. Want smooth, warm saturation? Use one set of instructions. Want aggressive, fuzzy distortion? Use another. The smoothness of our clipping comes entirely from which set of instructions we choose.
 
-We can confirm processing is happening at each sample: I'm using a script that counts each sample being processed, groups them by second, then measures the results. 
+We can confirm processing is happening at each sample: I'm using a script that counts each sample being processed, groups them by second, then measures the results. Here's what it shows:
 
 ```JSFX
 @init
@@ -101,6 +101,8 @@ Here's what the script logs:
 </div>
 
 *This session is set to 44.1khz sample rate and the logs confirm each sample is processed by our distortion implementation.*
+
+Keep in mind that any small offset in values is a result of the buffer size. Audio samples are processed in batches, not one at a time. 
 ## The Cost of Processing
 
 Think about what this means. In CD-quality audio, there are 44,100 samples happening every second. If our processing runs at CD-quality, we're applying our instructions 44,100 times per second. Every second. Continuously.
@@ -122,7 +124,7 @@ The promise is simple: replace expensive per-sample computation with cheap memor
 
 For example, rather than computing tanh() 44,100 times per second, we approximate it with a table containing a limited number of precomputed output values. Now each sample lookup should be cheaper.
 
-But watch what happens when we reduce table size to improve performance even more. Fewer entries means faster lookups, right? But it also means coarser approximation. So there's a tradeoff between speed and accuracy.
+But watch what happens when we reduce table size to improve performance. Fewer entries means faster lookups, right? But it also means coarser approximation. So there's a tradeoff between speed and accuracy.
 ## Testing Performance: LUT vs Tanh
 
 Let me show you what I found. We'll compare tanh() against several LUT implementations. These differences can be microscopic, so I've artificially increased the load by processing each sample 50 times - this makes the performance differences visible.
@@ -144,7 +146,7 @@ Not so fast.
 
 Let's look at what we're giving up:
 
-This table has 1024 points. Our LUT outperforms tanh() because we're executing fewer instructions per sample:no exponential calculations, just array lookups.
+This table has 1024 points. Our LUT outperforms tanh() because we're executing fewer instructions per sample: no exponential calculations, just array lookups.
 
 But here's the tradeoff: we're exchanging fidelity for CPU performance. Our waveshaper can only output 1024 possible values, while tanh() can compute essentially infinite precision.
 
@@ -213,12 +215,12 @@ But remember: smaller table size means lower resolution. And lower resolution me
 
 *How LUTs resolution changes the waveshaper's output.*
 
-What does "lower resolution" actually mean in practice? Let's find out.
+Notice the waveshaper gets coarser as we reduce the table size. This is what I mean by "lower resolution". But what does "lower resolution" actually mean to our ears? Let's find out.
 ## Harmonic Comparison: The Hidden Cost
 
 When we use a low-resolution waveshaper, we introduce quantization distortion - digital artifacts that weren't in the original signal. Here's why:
 
-Small LUT sizes force coarse steps between each position. Instead of a smooth curve, we get a staircase. These steps generate additional harmonics that aren't present in a full-precision tanh() response. 
+Small LUT sizes force coarse steps between each position. Instead of a smooth curve, we get a zigzagged path. The coarse steps generate additional harmonics that aren't present in a full-precision tanh() response. 
 
 Watch what happens when we reduce our LUT to just 4 points:
 
@@ -230,9 +232,9 @@ Watch what happens when we reduce our LUT to just 4 points:
 
 The black line is tanh(), the orange is our 4-point LUT. See those jagged steps? That's quantization noise.
 
-Now we have extra harmonics above 10kHz. These are frequencies that shouldn't be there. This is quantization noise made audible. You might ask:
+We start to hear harmonics above 10kHz. These are frequencies that shouldn't be there. This is quantization noise made audible. You might ask:
 
-"At what table size do these artifacts disappear?"
+"But at what table size do these artifacts disappear?"
 
 I ran tests at different table sizes and found when the artifacts became inaudible. Let me show you the results.
 
