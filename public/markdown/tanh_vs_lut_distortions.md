@@ -61,7 +61,7 @@ The same 1kHz sine wave with distortion suddenly has harmonics at 3kHz, 5kHz, 7k
 These are the two fingerprints that confirm clipping is happening: the flattened waveform and the harmonic series.
 ## Implementing Distortion in DSP
 
-Here's where things get interesting. We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
+We can think of digital audio as snapshots of sound captured at regular time intervals. These snapshots are called samples.
 Much like a movie is a series of still pictures that create the illusion of motion, samples create the illusion of continuous sound when played back in sequence.
 
 Here's how it looks:
@@ -73,6 +73,8 @@ Here's how it looks:
 *A series of samples capturing a signal at regular intervals. The effect is dramatic for demonstration purposes.*
 
 Now here's the key: each distortion algorithm processes these samples differently. Want smooth, warm saturation? Use one set of instructions. Want aggressive, fuzzy distortion? Use another. The smoothness of our clipping comes entirely from which set of instructions we choose.
+
+For this article, we'll be using a simple tanh() function to simulate distortion. It's a common choice for its simplicity and speed. It will read each sample and apply soft clipping to it.
 
 We can confirm processing is happening at each sample: I'm using a script that counts each sample being processed, groups them by second, then measures the results. Here's what it shows:
 
@@ -114,25 +116,26 @@ So engineers came up with a clever workaround: lookup tables (LUTs). [Read more 
 Instead of computing expensive functions repeatedly, why not compute them once, store the results in a table, and then just look up values as needed?
 
 This seems brilliant. Memory access should be faster than computation, right?
+
 Let's test that assumption.
 
 ## LUTs: The Supposed Solution
 
 A lookup table is a container of precomputed values. They map our amplitude's inputs to more desirable amplitude positions. Instead of computing tanh(x) 44,100 times per second, we compute it once, store those results as positions, and then just retrieve them.
 
-The promise is simple: replace expensive per-sample computation with cheap memory lookups. Use more memory, save CPU cycles. Sounds like a great trade.
+The promise is simple: replace expensive per-sample computation with cheap memory lookups. We use more memory, but save on CPU cycles.
 
 For example, rather than computing tanh() 44,100 times per second, we approximate it with a table containing a limited number of precomputed output values. Now each sample lookup should be cheaper.
 
-But watch what happens when we reduce table size to improve performance. Fewer entries means faster lookups, right? But it also means coarser approximation. So there's a tradeoff between speed and accuracy.
+But watch what happens when we reduce table size to improve performance. Fewer entries means faster lookups but it also means coarser approximation. So there's a tradeoff between speed and accuracy.
 ## Testing Performance: LUT vs Tanh
 
-Let me show you what I found. We'll compare tanh() against several LUT implementations. These differences can be microscopic, so I've artificially increased the load by processing each sample 50 times - this makes the performance differences visible.
+We'll compare tanh() against several LUT implementations. These differences can be microscopic, so I've artificially increased the load by processing each sample 50 times - this makes the performance differences visible.
 
 > Note: This comparison focuses on core performance characteristics. I'm not including input range mapping, different interpolation patterns, oversampling, or hardware/OS differences - those deserve their own analysis.
 ### Simple LUT (1024 points)
 
-After using a table of 1024 points, our LUT outperforms tanh() by 57% on CPU.
+For our first comparison, we'll use a table of 1024 points. It's simple but works for our demonstration. After using the table, our LUT outperforms tanh() by 57% on CPU.
 
 <div class="comparison-container">
     <code class="status-danger" style="font-size: 1.5rem;">Tanh(): 0.88% CPU</code>
@@ -144,9 +147,7 @@ In a typical DAW session, that's the difference between running 8 instances of a
 Case closed, right? LUTs are faster!
 Not so fast.
 
-Let's look at what we're giving up:
-
-This table has 1024 points. Our LUT outperforms tanh() because we're executing fewer instructions per sample: no exponential calculations, just array lookups.
+Let's look at what we're giving up: This table has 1024 points. Our LUT outperforms tanh() because we're executing fewer instructions per sample: no exponential calculations, just array lookups.
 
 But here's the tradeoff: we're exchanging fidelity for CPU performance. Our waveshaper can only output 1024 possible values, while tanh() can compute essentially infinite precision.
 
@@ -215,7 +216,9 @@ But remember: smaller table size means lower resolution. And lower resolution me
 
 *How LUTs resolution changes the waveshaper's output.*
 
-Notice the waveshaper gets coarser as we reduce the table size. This is what I mean by "lower resolution". But what does "lower resolution" actually mean to our ears? Let's find out.
+Notice the waveshaper gets coarser as we reduce the table size. This is what I mean by "lower resolution". But what does it sound like to our ears? 
+
+Let's find out!
 ## Harmonic Comparison: The Hidden Cost
 
 When we use a low-resolution waveshaper, we introduce quantization distortion - digital artifacts that weren't in the original signal. Here's why:
@@ -251,12 +254,17 @@ Our 64-point LUT implementation has an indistinguishable frequency response from
 
 *I had to offset the values because the overlap is near perfect*
 
+We shouldn't be able to hear the harmonic difference between the 64-point LUT and tanh() according to our frequency response charts.
+
 This might look convincing, but there's one way to know for sure - a null test.
 ## The Null Test
 A null test works by flipping the polarity of one signal and adding it to the other. If the signals are identical, they cancel completely. Any remaining signal is the difference between them.
 
-Before polarity flip: Peak at -12dBFS
-After polarity flip: Peak at -79.1dBFS
+Let's test the distortions by measuring the peak of the summed signals before and after polarity flip.
+- Before polarity flip: Peak at -12dBFS
+- After polarity flip: Peak at -79.1dBFS
+
+Here's what that looks like:
 
 <div class="chart-container static">
     <img src="{{ '/public/img/null_test.svg' | url }}" alt="Null Test">
@@ -264,7 +272,7 @@ After polarity flip: Peak at -79.1dBFS
 
 *The null test results from the 64-point LUT*
 
-That's a reduction of 67dB - virtually silence. This confirms our 64-point LUT is essentially indistinguishable from tanh().
+That's a reduction of 67dB. This confirms our 64-point LUT is harmonically and dynamically indistinguishable from tanh().
 
 So we've found the sweet spot, right? 64 points gives us perfect accuracy. LUTs win!
 
